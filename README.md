@@ -2,7 +2,7 @@
 
 ## About
 
-These are my solutions to the Advent of Code 2022.
+These are my solutions to the Advent of Code 2022. This year I'm attempting to code the solutions in Rust to punish myself. I still dislike Rust.
 
 ## Author
 

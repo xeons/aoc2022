@@ -32,5 +32,4 @@ pub fn run() {
     assert!(calorie_totals.len() >= 3);
     println!("Day 1 Part A Answer: {}", calorie_totals[0]);
     println!("Day 1 Part B Answer: {}", calorie_totals[0] + calorie_totals[1] + calorie_totals[2]);
-
 }

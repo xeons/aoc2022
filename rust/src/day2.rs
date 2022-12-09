@@ -1,6 +1,6 @@
 use std::fs::File;
-use std::io::BufReader;
 use std::io::BufRead;
+use std::io::BufReader;
 
 pub fn run() {
     let file = File::open("resources/day2input.txt").expect("Input file not found.");
@@ -11,61 +11,40 @@ pub fn run() {
 
     for line in reader.lines() {
         let str = line.unwrap();
-        let input_arguments = str.split(" ").collect::<Vec<&str>>();
-
-        println!("Round: {:?}, {:?}", input_arguments[0], input_arguments[1]);
-
-        let instruction_a = input_arguments[0].chars().next().unwrap();
-        let instruction_b = input_arguments[1].chars().next().unwrap();
-
-        if instruction_b == 'X' { 
-            part1_score += check_outcome(instruction_b, instruction_a) + get_shape_value(instruction_b); // rock
-            part2_score += get_shape_value(get_losing_move(instruction_a)); // lose
-        } else if instruction_b == 'Y' { 
-            part1_score += check_outcome(instruction_b, instruction_a) + get_shape_value(instruction_b); // paper
-            part2_score += 3 + get_shape_value(instruction_a); // draw
-        } else if instruction_b == 'Z' { 
-            part1_score += check_outcome(instruction_b, instruction_a) + get_shape_value(instruction_b); // scissors
-            part2_score += 6 + get_shape_value(get_winning_move(instruction_a)); // win
-        }
+        part1_score += calculate_score_part1(&str);
+        part2_score += calculate_score_part2(&str);
     }
 
     println!("Day 2 Part 1 Answer: {:?}", part1_score);
     println!("Day 2 Part 2 Answer: {:?}", part2_score);
 }
 
-fn get_shape_value(shape: char) -> u32 {
-    return match shape {
-        'X' | 'A' => 1, // rock
-        'Y' | 'B' => 2, // paper
-        'Z' | 'C' => 3, // scissor
+fn calculate_score_part1(game: &str) -> u32 {
+    return match &game[..] {
+        "A X" => 3 + 1,
+        "A Y" => 6 + 2,
+        "A Z" => 0 + 3,
+        "B X" => 0 + 1,
+        "B Y" => 3 + 2,
+        "B Z" => 6 + 3,
+        "C X" => 6 + 1,
+        "C Y" => 0 + 2,
+        "C Z" => 3 + 3,
         _ => panic!()
-    }
+    };
 }
 
-fn get_losing_move(shape: char) -> char {
-    return match shape {
-        'X' | 'A' => 'C', // rock
-        'Y' | 'B' => 'A', // paper
-        'Z' | 'C' => 'B', // scissor
+fn calculate_score_part2(game: &str) -> u32 {
+    return match &game[..] {
+        "A X" => 3 + 0, // lose
+        "A Y" => 1 + 3, // draw
+        "A Z" => 2 + 6, // win
+        "B X" => 1 + 0, // lose
+        "B Y" => 2 + 3, // draw
+        "B Z" => 3 + 6, // win
+        "C X" => 2 + 0, // lose
+        "C Y" => 3 + 3, // draw
+        "C Z" => 1 + 6, // win
         _ => panic!()
-    } 
-}
-
-fn get_winning_move(shape: char) -> char {
-    return match shape {
-        'X' | 'A' => 'B', // rock
-        'Y' | 'B' => 'C', // paper
-        'Z' | 'C' => 'A', // scissor
-        _ => panic!()
-    } 
-}
-
-fn check_outcome(a: char, b: char) -> u32 {
-    if get_shape_value(a) == get_shape_value(b) {
-        return 3;
-    } else if get_losing_move(a) == b {
-        return 6;
-    }
-    return 0;
+    };
 }

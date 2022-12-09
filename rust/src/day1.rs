@@ -23,7 +23,6 @@ pub fn run() {
     if current_elf_calories > 0 {
         println!("Adding to current elf total: {:?}", current_elf_calories);
         calorie_totals.push(current_elf_calories);
-        current_elf_calories = 0;
     }
 
     calorie_totals.sort();
